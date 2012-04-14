@@ -1,5 +1,5 @@
 {
-    "hash": "e476d17f90823ab0ec5755b76682455e",
+    "hash": "be57d9f45c3397ab25cf604fd8ce6713",
     "packages": [
         {
             "package": "openphoto-php",
@@ -75,6 +75,11 @@
             "version": "dev-master",
             "source-reference": "0811d83da31aacfe32a580b5db4287cae8f3d5a9",
             "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "source-reference": "0647ee4ca69b60f9043256e89f8dbaa0cedd854c"
         },
         {
             "package": "twig/twig",
