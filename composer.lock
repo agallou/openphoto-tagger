@@ -1,6 +1,10 @@
 {
-    "hash": "c062e70289182af548738d4ddae48f34",
+    "hash": "082e61364693382bf8a15f20da84e54b",
     "packages": [
+        {
+            "package": "openphoto-php",
+            "version": "1.0"
+        },
         {
             "package": "pimple/pimple",
             "version": "dev-master",
