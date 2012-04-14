@@ -1,0 +1,11 @@
+{
+    "name": "openphoto-tagger/openphoto-tagger",
+    "description": "Rapidly tag your photos on openphoto",
+    "license": "MIT",
+    "require": {
+        "silex/silex": "1.0.*"
+    },
+    "autoload": {
+        "psr-0": { "OpenphotoTagger": "src/" }
+    }
+}
