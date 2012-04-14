@@ -4,7 +4,8 @@
     "license": "MIT",
     "require": {
         "silex/silex": "1.0.*",
-        "openphoto-php" : "1.0"
+        "openphoto-php" : "1.0",
+	"twig/twig" : "dev-master"
     },
     "autoload": {
         "psr-0": { "OpenphotoTagger": "src/" },
