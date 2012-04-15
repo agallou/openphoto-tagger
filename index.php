@@ -41,6 +41,7 @@ $app->get('/photo/{id}/display', function ($id) use ($app, $openphoto) {
     'path' => $path,
     'tags' => $tokenTags,
     'id'   => $photo->id,
+    'next' => $app['url_generator']->generate('homepage'),
   ));
 })->bind('photo_display');
 
@@ -65,9 +66,8 @@ $app->get('/', function () use ($app, $config) {
   $photos = $photos->result;
 
   $photo = $photos[0];
-
-  return '<a href="'.$app['url_generator']->generate('photo_display', array('id' => $photo->id)).'">Next photo</a>';
-});
+  return sprintf('<meta http-equiv="refresh" content="0; url=%s" />', $app['url_generator']->generate('photo_display', array('id' => $photo->id)));
+})->bind('homepage');
 
 $app->get('/tags', function (Request $request) use ($app, $config) {
   $tags = $app['openphoto']->get('/tags/list.json');
