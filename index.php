@@ -24,7 +24,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app['debug'] = true;
 
-$app->get('/photo/{id}/display', function ($id) use ($app, $openphoto) {
+$app->get('/photo/{id}/display', function ($id) use ($app, $config) {
 
   $photo = $app['openphoto']->get(sprintf('/photo/%s/view.json', $id), array('returnSizes' => '700x700'));
   $photo = json_decode($photo);
@@ -37,11 +37,26 @@ $app->get('/photo/{id}/display', function ($id) use ($app, $openphoto) {
   {
     $tokenTags[] = array('id' => $tag, 'name' => $tag);
   }
+
+
+  $tags = $app['openphoto']->get('/tags/list.json');
+  $tags = json_decode($tags);
+  $displayedTags = array();
+  $nbTag = 0;
+  foreach ($tags->result as $tag)
+  {
+    if (isset($config['tags']) && $tag->id == $config['tags'])
+    {
+      $nbTag = $tag->count;
+    }
+  }
+
   return $app['twig']->render('index.twig', array(
     'path' => $path,
     'tags' => $tokenTags,
     'id'   => $photo->id,
     'next' => $app['url_generator']->generate('homepage'),
+    'nb'   => $nbTag,
   ));
 })->bind('photo_display');
 
