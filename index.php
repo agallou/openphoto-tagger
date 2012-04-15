@@ -76,7 +76,7 @@ $app->get('/tags', function (Request $request) use ($app, $config) {
   $query = $request->get('q');
   foreach ($tags->result as $tag)
   {
-    if (strpos(strtolower($tag->id), strtolower($query)))
+    if (null === $query || false !== strpos(strtolower($tag->id), strtolower($query)))
     {
       $displayedTags[] = array('id' => $tag->id, 'name' => $tag->id);
     }
