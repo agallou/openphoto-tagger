@@ -32,7 +32,10 @@
     key('shift+n, end', function(event, handler){
       window.location = $('#lnk-next').attr('href');
     });
- 
+  });
+
+  $(window).load(function() {
+    $('#demo-input-pre-populated').focus();
   });
  </script>
 {% endautoescape %}
