@@ -27,6 +27,8 @@
       onDelete: function () { $.post('/index.php/photo/{{ id }}/update', { tags: $(this).val() }); }
     });
  
+    key.filter = function () { return true; }
+
     key('shift+n, end', function(event, handler){
       window.location = $('#lnk-next').attr('href');
     });
