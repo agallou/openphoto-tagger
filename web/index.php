@@ -1,5 +1,5 @@
 <?php
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ $app = new Silex\Application();
 
 
 $yaml      = new Parser();
-$config    = $yaml->parse(file_get_contents('config.yml'));
+$config    = $yaml->parse(file_get_contents('../config.yml'));
 $openphoto = new OpenPhotoOAuth($config['host'], $config['consumerKey'], $config['consumerSecret'], $config['token'], $config['tokenSecret']);
 $app['openphoto'] = $openphoto;
 
@@ -18,8 +18,8 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'       => __DIR__.'/views',
-  'twig.class_path' => __DIR__.'/vendor/twig/lib',
+  'twig.path'       => __DIR__.'/../views',
+  'twig.class_path' => __DIR__.'/../vendor/twig/lib',
 ));
 
 
@@ -43,8 +43,8 @@ $app->get('/login', function () use ($app) {
 $app->post('/api/login', function () use ($app) {
 
   $yaml      = new Parser();
-  $config    = $yaml->parse(file_get_contents(__DIR__ . '/config/browserid.yml'));
-  $security  = $yaml->parse(file_get_contents(__DIR__ . '/config/security.yml'));
+  $config    = $yaml->parse(file_get_contents(__DIR__ . '/../config/browserid.yml'));
+  $security  = $yaml->parse(file_get_contents(__DIR__ . '/../config/security.yml'));
 
 
 
