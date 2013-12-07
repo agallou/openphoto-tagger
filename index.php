@@ -1,5 +1,5 @@
 <?php
-require_once 'vendor/.composer/autoload.php';
+require_once 'vendor/autoload.php';
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +15,88 @@ $openphoto = new OpenPhotoOAuth($config['host'], $config['consumerKey'], $config
 $app['openphoto'] = $openphoto;
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path'       => __DIR__.'/views',
   'twig.class_path' => __DIR__.'/vendor/twig/lib',
 ));
+
+
+
+
+$app->get('/logout', function () use ($app) {
+    $app['session']->clear();
+    return $app->redirect($app['url_generator']->generate('login'));
+})->bind('logout');
+
+$app->get('/login', function () use ($app) {
+  if ($app['session']->has('user')) {
+    return $app->redirect($app['url_generator']->generate('homepage'));
+  }
+
+  return $app['twig']->render('login.twig', array(
+  ));
+
+})->bind('login');
+
+$app->post('/api/login', function () use ($app) {
+
+  $yaml      = new Parser();
+  $config    = $yaml->parse(file_get_contents(__DIR__ . '/config/browserid.yml'));
+  $security  = $yaml->parse(file_get_contents(__DIR__ . '/config/security.yml'));
+
+
+
+  $url  = 'https://browserid.org/verify';
+  $data = http_build_query(array(
+    'assertion' => $_POST['assertion'],
+    'audience' => urlencode($config['audience'])
+
+  ));
+
+  $params = array(
+    'http' => array(
+      'method'    => 'POST',
+        'content' => $data,
+        'header'  =>
+          "Content-type: application/x-www-form-urlencoded\r\n"
+          . "Content-Length: " . strlen($data) . "\r\n"
+    )
+  );
+
+  $ctx = stream_context_create($params);
+  $fp  = fopen($url, 'rb', false, $ctx);
+
+  if ($fp) {
+    $result = stream_get_contents($fp);
+  }  else {
+    $result = FALSE;
+  }
+  $json = json_decode($result);
+  if ($json->status == 'okay' && in_array($json->email, $security['users']))
+  {
+    $app['session']->start();
+    $app['session']->set('user', array('username' => $json->email));
+  }
+
+  return $result;
+});
+
+
+
+
+$mustBeLogged = function (Request $request) use ($app) {
+    if (!$app['session']->has('user')) {
+        return $app->redirect($app['url_generator']->generate('login', array(), true));
+    }
+};
+
+
+
+
+
+
 
 
 $app['debug'] = true;
@@ -52,20 +129,22 @@ $app->get('/photo/{id}/display', function ($id) use ($app, $config) {
   }
 
   return $app['twig']->render('index.twig', array(
-    'path' => $path,
-    'tags' => $tokenTags,
-    'id'   => $photo->id,
-    'next' => $app['url_generator']->generate('homepage'),
-    'nb'   => $nbTag,
+    'path'  => $path,
+    'tags'  => $tokenTags,
+    'id'    => $photo->id,
+    'next'  => $app['url_generator']->generate('homepage'),
+    'nb'    => $nbTag,
+    'date'  => $photo->dateTaken,
+    'title' => $photo->title,
   ));
-})->bind('photo_display');
+})->before($mustBeLogged)->bind('photo_display');
 
 
 $app->post('/photo/{id}/update', function (Request $request) use ($app, $openphoto) {
   $id    = $request->get('id');
   $tags  = $request->get('tags');
   $photo = $app['openphoto']->post(sprintf('/photo/%s/update.json', $id), array('tags' => $tags));
-});
+})->before($mustBeLogged);
 
 
 $app->get('/', function () use ($app, $config) {
@@ -82,7 +161,7 @@ $app->get('/', function () use ($app, $config) {
 
   $photo = $photos[0];
   return sprintf('<meta http-equiv="refresh" content="0; url=%s" />', $app['url_generator']->generate('photo_display', array('id' => $photo->id)));
-})->bind('homepage');
+})->before($mustBeLogged)->bind('homepage');
 
 $app->get('/tags', function (Request $request) use ($app, $config) {
   $tags = $app['openphoto']->get('/tags/list.json');
@@ -97,7 +176,7 @@ $app->get('/tags', function (Request $request) use ($app, $config) {
     }
   }
   return json_encode($displayedTags);
-});
+})->before($mustBeLogged);
 
 $app->run();
 

@@ -8,9 +8,12 @@
 
 <div class="row-fluid">
   <div class="span7">
-    <img src="{{ path }}" />
+    <img src="{{ path }}" /><br />
+    Date Taken : {{ date|date("m/d/Y") }}<br />
+    Title : {{ title }}
   </div>
   <div class="span5">
+    <a href="{{ app.url_generator.generate('logout') }}" >Logout</a><br />
     <a id="lnk-next" href="{{ next }}"><div class="btn">Next</div></a>
     {{ nb }}
     <input type="text" id="demo-input-pre-populated" name="blah" />

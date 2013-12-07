@@ -3,10 +3,10 @@
     "description": "Rapidly tag your photos on openphoto",
     "license": "MIT",
     "require": {
-        "silex/silex": "1.0.*",
+        "silex/silex": "1.1.x",
         "openphoto-php" : "1.0",
-	"twig/twig" : "dev-master",
-	"symfony/yaml" : "dev-master"
+	      "twig/twig" : "1.15.x",
+      	"symfony/yaml" : "2.4.x"
     },
     "autoload": {
         "psr-0": { "OpenphotoTagger": "src/" },
@@ -19,7 +19,7 @@
         "name": "openphoto-php",
         "version": "1.0",
         "source": {
-          "url": "http://github.com/openphoto/openphoto-php",
+          "url": "http://github.com/photo/openphoto-php",
           "type": "git",
           "reference": "master"
         }
