@@ -1,11 +1,10 @@
-<html>
+{% extends 'base.twig' %}
 
-  <head>
+
+
+{% block javascript %}
     <script src="https://browserid.org/include.js" type="text/javascript"></script>  
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-
-
 
     <script>
     function gotAssertion(assertion) {  
@@ -43,6 +42,10 @@
     });  
     
     </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 
     <style>
       .login {
@@ -67,16 +70,14 @@
       }
     </style>
 
-  </head>
+{% endblock %}
 
-  <body>
-  
+
+{% block body %}  
     <div class="well login">
       <h6>Openphoto tagger</h6>
 
       <a id="browserid" title="Sign-in with BrowserID"><img src="https://browserid.org/i/sign_in_blue.png" alt="Sign in"></a>  
     </div>
-  
-  </body>
 
-</html>
+{% endblock %} 
