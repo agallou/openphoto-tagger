@@ -10,7 +10,7 @@ $app = new Silex\Application();
 
 
 $yaml      = new Parser();
-$config    = $yaml->parse(file_get_contents('../config.yml'));
+$config    = $yaml->parse(file_get_contents('../config/config.yml'));
 $openphoto = new OpenPhotoOAuth($config['host'], $config['consumerKey'], $config['consumerSecret'], $config['token'], $config['tokenSecret']);
 $app['openphoto'] = $openphoto;
 
