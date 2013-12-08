@@ -8,9 +8,15 @@
 	      "twig/twig" : "1.15.x",
       	"symfony/yaml" : "2.4.x"
     },
+    "require-dev": {
+        "m6web/coke" : "*@dev"
+    },
     "autoload": {
         "psr-0": { "OpenphotoTagger": "src/" },
         "classmap": [  "vendor/openphoto-php"  ]
+    },
+     "config": {
+        "bin-dir": "bin"
     },
     "repositories": [
     {
@@ -24,6 +30,11 @@
           "reference": "master"
         }
       }
+    },
+    {
+        "type": "git",
+        "url": "git://github.com/agallou/Coke.git",
+        "branch": "composer"
     }
     ]
 }
