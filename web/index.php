@@ -7,9 +7,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app = new Silex\Application();
 
+$configFile = '../config/config.yml';
 
-$yaml      = new Parser();
-$config    = $yaml->parse(file_get_contents('../config/config.yml'));
+if (is_file($configFile)) {
+    $yaml      = new Parser();
+    $config    = $yaml->parse(file_get_contents($configFile));
+} else {
+    $config['host'] = $_ENV['OPENPHOTO_HOST'];
+    $config['consumerKey'] = $_ENV['OPENPHOTO_CONSUMERKEY'];
+    $config['consumerSecret'] = $_ENV['OPENPHOTO_CONSUMERSECRET'];
+    $config['token'] = $_ENV['OPENPHOTO_TOKEN'];
+    $config['tokenSecret'] = $_ENV['OPENPHOTO_TOKENSECRET'];
+    $config['tags'] = $_ENV['TAGS'];
+}
+
 $openphoto = new OpenPhotoOAuth(
     $config['host'],
     $config['consumerKey'],
@@ -47,10 +58,26 @@ $app->get('/login', function () use ($app) {
 $app->post('/api/login', function () use ($app) {
 
     $yaml      = new Parser();
-    $config    = $yaml->parse(file_get_contents(__DIR__ . '/../config/browserid.yml'));
-    $security  = $yaml->parse(file_get_contents(__DIR__ . '/../config/security.yml'));
+
+    $browserIdFile = __DIR__ . '/../config/browserid.yml';
+    if (is_file($browserIdFile)) {
+        $config    = $yaml->parse(file_get_contents($browserIdFile));
+    } else {
+        $config = array();
+        $config['audience'] = $_ENV['BROWSERID_AUDIENCE'];
+    }
 
 
+
+
+    $securityFile = __DIR__ . '/../config/security.yml';
+    if (is_file($securityFile)) {
+        $security  = $yaml->parse(file_get_contents($securityFile));
+    } else {
+        $security = array(
+            'users' => explode(",", $_ENV['SECURITY_USERS']),
+        );
+    }
 
     $url  = 'https://browserid.org/verify';
     $data = http_build_query(array(
