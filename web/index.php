@@ -13,12 +13,12 @@ if (is_file($configFile)) {
     $yaml      = new Parser();
     $config    = $yaml->parse(file_get_contents($configFile));
 } else {
-    $config['host'] = $_ENV['OPENPHOTO_HOST'];
-    $config['consumerKey'] = $_ENV['OPENPHOTO_CONSUMERKEY'];
-    $config['consumerSecret'] = $_ENV['OPENPHOTO_CONSUMERSECRET'];
-    $config['token'] = $_ENV['OPENPHOTO_TOKEN'];
-    $config['tokenSecret'] = $_ENV['OPENPHOTO_TOKENSECRET'];
-    $config['tags'] = $_ENV['TAGS'];
+    $config['host'] = getenv('OPENPHOTO_HOST');
+    $config['consumerKey'] = getenv('OPENPHOTO_CONSUMERKEY');
+    $config['consumerSecret'] = getenv('OPENPHOTO_CONSUMERSECRET');
+    $config['token'] = getenv('OPENPHOTO_TOKEN');
+    $config['tokenSecret'] = getenv('OPENPHOTO_TOKENSECRET');
+    $config['tags'] = getenv('TAGS');
 }
 
 $openphoto = new OpenPhotoOAuth(
@@ -64,7 +64,7 @@ $app->post('/api/login', function () use ($app) {
         $config    = $yaml->parse(file_get_contents($browserIdFile));
     } else {
         $config = array();
-        $config['audience'] = $_ENV['BROWSERID_AUDIENCE'];
+        $config['audience'] = getenv('BROWSERID_AUDIENCE');
     }
 
 
@@ -75,7 +75,7 @@ $app->post('/api/login', function () use ($app) {
         $security  = $yaml->parse(file_get_contents($securityFile));
     } else {
         $security = array(
-            'users' => explode(",", $_ENV['SECURITY_USERS']),
+            'users' => explode(",", getenv('SECURITY_USERS')),
         );
     }
 
