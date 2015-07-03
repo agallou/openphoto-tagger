@@ -4,3 +4,4 @@
 /config/config.yml
 /config/browserid.yml
 /config/security.yml
+/docker-compose.yml

@@ -1,0 +1,6 @@
+apachephp:
+  build: web
+  volumes:
+    - ../:/var/www/html
+  environment:
+    BROWSERID_AUDIENCE: "localhost"

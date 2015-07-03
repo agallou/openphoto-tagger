@@ -1,0 +1,15 @@
+apachephp:
+  extends:
+      file: dockerfiles/docker-composer-base.yml
+      service: apachephp
+  ports:
+    - "9040:80"
+  environment:
+    SECURITY_USERS: ""
+    OPENPHOTO_HOST: ""
+    OPENPHOTO_CONSUMERKEY: ""
+    OPENPHOTO_CONSUMERSECRET: ""
+    OPENPHOTO_TOKEN: ""
+    OPENPHOTO_TOKENSECRET: ""
+    TAGS: ""
+    BROWSERID_AUDIENCE: ""
