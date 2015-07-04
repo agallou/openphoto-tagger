@@ -5,8 +5,8 @@
     "require": {
         "silex/silex": "1.1.x",
         "openphoto-php" : "1.0",
-	      "twig/twig" : "1.15.x",
-      	"symfony/yaml" : "2.4.x"
+        "twig/twig" : "1.15.x",
+        "symfony/dependency-injection": "2.6.x"
     },
     "require-dev": {
         "m6web/coke" : "*@dev"

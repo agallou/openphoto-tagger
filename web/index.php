@@ -1,32 +1,29 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 $app = new Silex\Application();
 
-$configFile = '../config/config.yml';
+$container = new ContainerBuilder();
+$container->setParameter("host", getenv("OPENPHOTO_HOST"));
+$container->setParameter("consumerKey", getenv("OPENPHOTO_CONSUMERKEY"));
+$container->setParameter("consumerSecret", getenv("OPENPHOTO_CONSUMERSECRET"));
+$container->setParameter("token", getenv("OPENPHOTO_TOKEN"));
+$container->setParameter("tokenSecret", getenv("OPENPHOTO_TOKENSECRET"));
+$container->setParameter("tags", getenv("TAGS"));
+$container->setParameter('browserid.audience', getenv("BROWSERID_AUDIENCE"));
+$container->setParameter('security.users', getenv("SECURITY_USERS"));
 
-if (is_file($configFile)) {
-    $yaml      = new Parser();
-    $config    = $yaml->parse(file_get_contents($configFile));
-} else {
-    $config['host'] = getenv('OPENPHOTO_HOST');
-    $config['consumerKey'] = getenv('OPENPHOTO_CONSUMERKEY');
-    $config['consumerSecret'] = getenv('OPENPHOTO_CONSUMERSECRET');
-    $config['token'] = getenv('OPENPHOTO_TOKEN');
-    $config['tokenSecret'] = getenv('OPENPHOTO_TOKENSECRET');
-    $config['tags'] = getenv('TAGS');
-}
 
 $openphoto = new OpenPhotoOAuth(
-    $config['host'],
-    $config['consumerKey'],
-    $config['consumerSecret'],
-    $config['token'],
-    $config['tokenSecret']
+    $container->getParameter("host"),
+    $container->getParameter('consumerKey'),
+    $container->getParameter('consumerSecret'),
+    $container->getParameter('token'),
+    $container->getParameter('tokenSecret')
 );
 $app['openphoto'] = $openphoto;
 
@@ -55,34 +52,14 @@ $app->get('/login', function () use ($app) {
 
 })->bind('login');
 
-$app->post('/api/login', function () use ($app) {
+$app->post('/api/login', function () use ($app, $container) {
 
-    $yaml      = new Parser();
-
-    $browserIdFile = __DIR__ . '/../config/browserid.yml';
-    if (is_file($browserIdFile)) {
-        $config    = $yaml->parse(file_get_contents($browserIdFile));
-    } else {
-        $config = array();
-        $config['audience'] = getenv('BROWSERID_AUDIENCE');
-    }
-
-
-
-
-    $securityFile = __DIR__ . '/../config/security.yml';
-    if (is_file($securityFile)) {
-        $security  = $yaml->parse(file_get_contents($securityFile));
-    } else {
-        $security = array(
-            'users' => explode(",", getenv('SECURITY_USERS')),
-        );
-    }
+    $users =  explode(",", $container->getParameter('security.users'));
 
     $url  = 'https://browserid.org/verify';
     $data = http_build_query(array(
       'assertion' => $_POST['assertion'],
-      'audience' => urlencode($config['audience'])
+      'audience' => urlencode($container->getParameter('browserid.audience'))
 
     ));
 
@@ -105,7 +82,7 @@ $app->post('/api/login', function () use ($app) {
         $result = false;
     }
     $json = json_decode($result);
-    if ($json->status == 'okay' && in_array($json->email, $security['users'])) {
+    if ($json->status == 'okay' && in_array($json->email, $users)) {
         $app['session']->start();
         $app['session']->set('user', array('username' => $json->email));
     }
@@ -131,7 +108,7 @@ $mustBeLogged = function (Request $request) use ($app) {
 
 $app['debug'] = true;
 
-$app->get('/photo/{id}/display', function ($id) use ($app, $config) {
+$app->get('/photo/{id}/display', function ($id) use ($app, $container) {
 
     $photo = $app['openphoto']->get(sprintf('/photo/%s/view.json', $id), array('returnSizes' => '700x700'));
     $photo = json_decode($photo);
@@ -150,7 +127,7 @@ $app->get('/photo/{id}/display', function ($id) use ($app, $config) {
     $displayedTags = array();
     $nbTag = 0;
     foreach ($tags->result as $tag) {
-        if (isset($config['tags']) && $tag->id == $config['tags']) {
+        if (strlen($container->getParameter('tags')) && $tag->id == $container->getParameter('tags')) {
             $nbTag = $tag->count;
         }
     }
@@ -174,10 +151,10 @@ $app->post('/photo/{id}/update', function (Request $request) use ($app, $openpho
 })->before($mustBeLogged);
 
 
-$app->get('/', function () use ($app, $config) {
+$app->get('/', function () use ($app, $container) {
     $options = array('pageSize' => 1);
-    if (isset($config['tags'])) {
-        $options['tags'] = $config['tags'];
+    if (strlen($container->getParameter('tags'))) {
+        $options['tags'] = $container->getParameter('tags');
     }
 
     $photos = $app['openphoto']->get('/photos/list.json', $options);
