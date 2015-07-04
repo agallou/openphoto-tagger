@@ -166,7 +166,7 @@ $app->get('/', function () use ($app, $container) {
     return sprintf('<meta http-equiv="refresh" content="0; url=%s" />', $url);
 })->before($mustBeLogged)->bind('homepage');
 
-$app->get('/tags', function (Request $request) use ($app, $config) {
+$app->get('/tags', function (Request $request) use ($app) {
     $tags = $app['openphoto']->get('/tags/list.json');
     $tags = json_decode($tags);
     $displayedTags = array();
