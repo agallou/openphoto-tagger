@@ -5,14 +5,16 @@ class RoboFile extends \Robo\Tasks
     public function watch()
     {
         $this->build();
+
+        $buildCss = function () {
+            $this->_cleanBase();
+            $this->_cleanCss();
+            $this->_buildCss();
+        };
+
         $this
             ->taskWatch()
-            ->monitor('Ressources/assets/css/', function () {
-                $this->_cleanBase();
-                $this->_cleanCss();
-                $this->_buildCss();
-            })
-            ->run()
+            ->monitor(array('Ressources/assets/css/', 'Ressources/assets/sass'), $buildCss)
         ;
     }
 
