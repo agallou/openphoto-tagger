@@ -42,6 +42,10 @@ $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     $file = array_pop($files);
     $twig->addGlobal('cssfile', basename($file));
 
+    $files = glob(__DIR__ . '/js/*');
+    $file = array_pop($files);
+    $twig->addGlobal('jsfile', basename($file));
+
     return $twig;
 }));
 

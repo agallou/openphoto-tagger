@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1b9d6aa5e345781bef9c7b30502dc9c2",
+    "hash": "3abfa302d7c8fec059ca9fcc6509fe2f",
     "packages": [
         {
             "name": "codegyre/robo",
@@ -230,6 +230,53 @@
                 "reference": "master"
             },
             "type": "library"
+        },
+        {
+            "name": "patchwork/jsqueeze",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tchwork/jsqueeze.git",
+                "reference": "2e581762884cfd035d9b148794ef2a4ab2c3b893"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tchwork/jsqueeze/zipball/2e581762884cfd035d9b148794ef2a4ab2c3b893",
+                "reference": "2e581762884cfd035d9b148794ef2a4ab2c3b893",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Patchwork\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(Apache-2.0 or GPL-2.0)"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                }
+            ],
+            "description": "Efficient JavaScript minification in PHP",
+            "homepage": "https://github.com/tchwork/jsqueeze",
+            "keywords": [
+                "compression",
+                "javascript",
+                "minification"
+            ],
+            "time": "2015-03-23 08:12:46"
         },
         {
             "name": "pimple/pimple",

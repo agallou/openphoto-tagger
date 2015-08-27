@@ -22,6 +22,7 @@ class RoboFile extends \Robo\Tasks
     {
         $this->_clean();
         $this->_buildCss();
+        $this->_buildJs();
     }
 
     protected function _buildCss()
@@ -50,6 +51,31 @@ class RoboFile extends \Robo\Tasks
         $this->say("CSS rebuilt successfully!");
     }
 
+    protected function _buildJs()
+    {
+        $this->say("Starting JS rebuild");
+
+        $this
+            ->taskConcat([
+                'Ressources/assets/js/jquery.tokeninput.js',
+                'Ressources/assets/js/keymaster.min.js',
+            ])
+            ->to('cache/main.js')
+            ->run()
+        ;
+
+        $this
+            ->taskMinify('cache/main.js')
+            ->to('cache/main.js')
+            ->run()
+        ;
+
+        $this->_rename('cache/main.js', 'web/js/main.' . substr(md5_file('cache/main.js'), 0, 5) . '.js');
+
+        $this->say("JS rebuilt successfully!");
+
+    }
+
     protected function _clean()
     {
         $this->_mkdir('cache/');
@@ -67,6 +93,11 @@ class RoboFile extends \Robo\Tasks
     {
         $this->_cleanDir('web/css');
         $this->_mkdir('cache/sass');
+    }
+
+    protected function _cleanJs()
+    {
+        $this->_cleanDir('web/js');
     }
 
 }

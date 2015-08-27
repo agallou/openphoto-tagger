@@ -6,4 +6,5 @@
 /config/security.yml
 /docker-compose.yml
 /web/css/*
+/web/js/*
 /cache/*

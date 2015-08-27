@@ -9,7 +9,8 @@
         "symfony/dependency-injection": "2.6.x",
         "codegyre/robo": "dev-master@dev",
         "natxet/CssMin": "^3.0",
-        "leafo/scssphp": "^0.2.0"
+        "leafo/scssphp": "^0.2.0",
+        "patchwork/jsqueeze": "^2.0"
     },
     "require-dev": {
         "m6web/coke" : "*@dev"
