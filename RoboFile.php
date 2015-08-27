@@ -19,9 +19,14 @@ class RoboFile extends \Robo\Tasks
         ;
     }
 
-    public function build()
+    public function install()
     {
         $this->taskBowerInstall('./bin/bowerphp')->run();
+        $this->build();
+    }
+
+    public function build()
+    {
         $this->_clean();
         $this->_buildCss();
         $this->_buildJs();
