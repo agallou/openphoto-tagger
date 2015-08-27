@@ -1,6 +1,6 @@
 {
   "deploy": {
-    "webroot": "/web",
+    "webroot": "/web"
   },
   "hooks": {
       "postDeploy": "./bin/robo build"
