@@ -37,6 +37,15 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 
 
+$app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
+    $files = glob(__DIR__ . '/css/*');
+    $file = array_pop($files);
+    $twig->addGlobal('cssfile', basename($file));
+
+    return $twig;
+}));
+
+
 
 $app->get('/logout', function () use ($app) {
     $app['session']->clear();

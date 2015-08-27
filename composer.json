@@ -6,7 +6,10 @@
         "silex/silex": "1.1.x",
         "openphoto-php" : "1.0",
         "twig/twig" : "1.15.x",
-        "symfony/dependency-injection": "2.6.x"
+        "symfony/dependency-injection": "2.6.x",
+        "codegyre/robo": "^0.5.3",
+        "markstory/mini-asset": "^1.0",
+        "natxet/CssMin": "^3.0"
     },
     "require-dev": {
         "m6web/coke" : "*@dev"
