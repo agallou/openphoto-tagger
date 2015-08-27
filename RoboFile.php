@@ -22,8 +22,13 @@ class RoboFile extends \Robo\Tasks
     public function _buildCss()
     {
         $this->say("Starting CSS rebuild");
+
+        $this->taskScss([
+            'Ressources/assets/sass/main.scss' => 'cache/sass/main.css'
+        ])->run();
+
         $this->_exec('./bin/mini_asset build --config assets.ini');
-        $this->_rename('cache/main.css', 'web/css/main.' . substr(md5_file('cache/main.css'), 0, 5) . '.css');
+        $this->_rename('cache/cssmin/main.css', 'web/css/main.' . substr(md5_file('cache/cssmin/main.css'), 0, 5) . '.css');
         $this->say("CSS rebuilt successfully!");
     }
 
@@ -43,6 +48,8 @@ class RoboFile extends \Robo\Tasks
     public function _cleanCss()
     {
         $this->_cleanDir('web/css');
+        $this->_mkdir('cache/sass');
+        $this->_mkdir('cache/cssmin');
     }
 
 }
