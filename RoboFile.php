@@ -31,7 +31,10 @@ class RoboFile extends \Robo\Tasks
     {
         $this->say("Starting CSS rebuild");
 
-        $this->taskScss(['Ressources/assets/sass/main.scss' => 'cache/sass/main.css'])->run();
+        $this
+            ->taskScss(['Ressources/assets/sass/main.scss' => 'cache/sass/main.css'])
+            ->addImportPath('Ressources/assets/sass')
+            ->run();
 
         $this
             ->taskConcat([
