@@ -97,12 +97,14 @@ class RoboFile extends \Robo\Tasks
 
     protected function _cleanCss()
     {
+        $this->_mkdir('web/css');
         $this->_cleanDir('web/css');
         $this->_mkdir('cache/sass');
     }
 
     protected function _cleanJs()
     {
+        $this->_mkdir('web/js');
         $this->_cleanDir('web/js');
     }
 
