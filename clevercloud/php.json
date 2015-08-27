@@ -1,8 +1,8 @@
 {
   "deploy": {
     "webroot": "/web",
-    "hooks": {
-        "postDeploy": "./bin/robo build"
-    }
+  },
+  "hooks": {
+      "postDeploy": "./bin/robo build"
   }
 }
