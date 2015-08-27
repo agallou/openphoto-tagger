@@ -5,3 +5,7 @@
 /config/browserid.yml
 /config/security.yml
 /docker-compose.yml
+/web/css/*
+/web/js/*
+/cache/*
+/bower_components/*
