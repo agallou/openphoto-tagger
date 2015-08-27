@@ -41,5 +41,10 @@
         "url": "git://github.com/agallou/Coke.git",
         "branch": "composer"
     }
-    ]
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "./bin/robo build"
+        ]
+    }
 }
