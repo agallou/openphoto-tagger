@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
         $this->_buildCss();
     }
 
-    public function _buildCss()
+    protected function _buildCss()
     {
         $this->say("Starting CSS rebuild");
 
@@ -27,12 +27,24 @@ class RoboFile extends \Robo\Tasks
             'Ressources/assets/sass/main.scss' => 'cache/sass/main.css'
         ])->run();
 
-        $this->_exec('./bin/mini_asset build --config assets.ini');
-        $this->_rename('cache/cssmin/main.css', 'web/css/main.' . substr(md5_file('cache/cssmin/main.css'), 0, 5) . '.css');
+        $this->taskConcat([
+            'Ressources/assets/css/bootstrap.min.css',
+            'Ressources/assets/css/token-input.css',
+            'cache/sass/main.css'
+        ])
+        ->to('cache/main.css')
+        ->run();
+
+        $this
+            ->taskMinify('cache/main.css')
+            ->to('cache/main.css')
+            ->run();
+
+        $this->_rename('cache/main.css', 'web/css/main.' . substr(md5_file('cache/main.css'), 0, 5) . '.css');
         $this->say("CSS rebuilt successfully!");
     }
 
-    public function _clean()
+    protected function _clean()
     {
         $this->_mkdir('cache/');
         $this->_cleanBase();
@@ -40,16 +52,15 @@ class RoboFile extends \Robo\Tasks
 
     }
 
-    public function _cleanBase()
+    protected function _cleanBase()
     {
         $this->_cleanDir('cache/');
     }
 
-    public function _cleanCss()
+    protected function _cleanCss()
     {
         $this->_cleanDir('web/css');
         $this->_mkdir('cache/sass');
-        $this->_mkdir('cache/cssmin');
     }
 
 }
