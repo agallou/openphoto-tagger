@@ -82,6 +82,7 @@ class RoboFile extends \Robo\Tasks
         $this->_mkdir('cache/');
         $this->_cleanBase();
         $this->_cleanCss();
+        $this->_cleanJs();
 
     }
 
