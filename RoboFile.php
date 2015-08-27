@@ -20,6 +20,7 @@ class RoboFile extends \Robo\Tasks
 
     public function build()
     {
+        $this->taskBowerInstall('./bin/bowerphp')->run();
         $this->_clean();
         $this->_buildCss();
         $this->_buildJs();
@@ -34,7 +35,7 @@ class RoboFile extends \Robo\Tasks
         $this
             ->taskConcat([
                 'Ressources/assets/css/bootstrap.min.css',
-                'Ressources/assets/css/token-input.css',
+                'bower_components/jquery-tokeninput/styles/token-input.css',
                 'cache/sass/main.css'
             ])
             ->to('cache/main.css')
@@ -57,7 +58,7 @@ class RoboFile extends \Robo\Tasks
 
         $this
             ->taskConcat([
-                'Ressources/assets/js/jquery.tokeninput.js',
+                'bower_components/jquery-tokeninput/src/jquery.tokeninput.js',
                 'Ressources/assets/js/keymaster.min.js',
             ])
             ->to('cache/main.js')

@@ -10,7 +10,8 @@
         "codegyre/robo": "dev-master@dev",
         "natxet/CssMin": "^3.0",
         "leafo/scssphp": "^0.2.0",
-        "patchwork/jsqueeze": "^2.0"
+        "patchwork/jsqueeze": "^2.0",
+        "beelab/bowerphp": "0.3.*@beta"
     },
     "require-dev": {
         "m6web/coke" : "*@dev"
