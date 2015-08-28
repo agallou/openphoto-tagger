@@ -1,6 +1,7 @@
 {
     "private": true,
     "dependencies": {
-        "jquery-tokeninput": "1.7.0"
+        "jquery-tokeninput": "1.7.0",
+        "jquery": "1.5.1"
     }
 }
