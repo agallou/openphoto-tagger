@@ -69,7 +69,7 @@ class RoboFile extends \Robo\Tasks
             ->taskConcat([
                 'bower_components/jquery/jquery.js',
                 'bower_components/jquery-tokeninput/src/jquery.tokeninput.js',
-                'Ressources/assets/js/keymaster.min.js',
+                'bower_components/keymaster/keymaster.js',
                 'Ressources/assets/js/login.js',
             ])
             ->to('cache/main.js')
