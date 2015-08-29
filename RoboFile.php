@@ -2,6 +2,8 @@
 
 class RoboFile extends \Robo\Tasks
 {
+    use Agallou\RoboHash\loadTasks;
+
     public function watch()
     {
         $this->build();
@@ -57,7 +59,8 @@ class RoboFile extends \Robo\Tasks
             ->run()
         ;
 
-        $this->_rename('cache/main.css', 'web/css/main.' . substr(md5_file('cache/main.css'), 0, 5) . '.css');
+        $this->taskHash('cache/main.css')->to('web/css/')->run();
+
         $this->say("CSS rebuilt successfully!");
     }
 
@@ -82,7 +85,7 @@ class RoboFile extends \Robo\Tasks
             ->run()
         ;
 
-        $this->_rename('cache/main.js', 'web/js/main.' . substr(md5_file('cache/main.js'), 0, 5) . '.js');
+        $this->taskHash('cache/main.js')->to('web/js/')->run();
 
         $this->say("JS rebuilt successfully!");
 

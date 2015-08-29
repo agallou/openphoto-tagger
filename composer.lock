@@ -4,8 +4,40 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6596842697a7475b08ab53b0f0886b2d",
+    "hash": "898646cc330ab9e096accfdaa4677df5",
     "packages": [
+        {
+            "name": "agallou/robo-hash",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/agallou/robo-hash.git",
+                "reference": "1c711767bb48cfac5a68863d6dc6f722a61fb42d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/agallou/robo-hash/zipball/1c711767bb48cfac5a68863d6dc6f722a61fb42d",
+                "reference": "1c711767bb48cfac5a68863d6dc6f722a61fb42d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Agallou\\RoboHash\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Gallou",
+                    "email": "adriengallou@gmail.com"
+                }
+            ],
+            "time": "2015-08-29 19:07:47"
+        },
         {
             "name": "beelab/bowerphp",
             "version": "v0.3.4-beta",
@@ -130,7 +162,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/234ca0a3f0e35d49304fc45f0133a3d4ab4f7220",
+                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/2e058deca5ebdc5965e732126f72278974fedf84",
                 "reference": "234ca0a3f0e35d49304fc45f0133a3d4ab4f7220",
                 "shasum": ""
             },
