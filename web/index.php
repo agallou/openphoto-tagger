@@ -27,34 +27,8 @@ $openphoto = new OpenPhotoOAuth(
 );
 $app['openphoto'] = $openphoto;
 
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler;
-
-
-$app->register(new Predis\Silex\ClientsServiceProvider(), array(
-    'predis.clients' => array(
-        'session' => array(
-            'parameters' => 'tcp://' . getenv('REDIS_HOST'),
-            'options' => array(
-                'prefix' => 'sessions:'
-            ),
-        ),
-    ),
-));
-
-
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-
-
-$app->register(new Silex\Provider\SessionServiceProvider(), array(
-    'session.storage.handler' => $app->share(function () use ($app) {
-            $client = $app['predis']['session'];
-            $options = array('gc_maxlifetime' => 300);
-            $handler = new Predis\Session\Handler($client, $options);
-            return $handler;
-        })
-));
-
-
+$app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path'       => __DIR__.'/../views',

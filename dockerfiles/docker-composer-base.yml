@@ -4,6 +4,3 @@ apachephp:
     - ../:/var/www/html
   environment:
     BROWSERID_AUDIENCE: "localhost"
-    REDIS_HOST: "redis"
-redis:
-  image: redis:3.0.3
