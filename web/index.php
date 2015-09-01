@@ -29,14 +29,19 @@ $app['openphoto'] = $openphoto;
 
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler;
 
+$redisParameters = array(
+    'host' => getenv('REDIS_HOST'),
+    'password' => getenv('REDIS_PASSWORD'),
+);
+
+if (getenv('REDIS_PORT')) {
+    $redisParameters['port'] = getenv('REDIS_PORT');
+}
 
 $app->register(new Predis\Silex\ClientsServiceProvider(), array(
     'predis.clients' => array(
         'session' => array(
-            'parameters' => array(
-                'host' => getenv('REDIS_HOST'),
-                'password' => getenv('REDIS_PASSWORD'),
-            ),
+            'parameters' => $redisParameters,
             'options' => array(
                 'prefix' => 'sessions:'
             ),
