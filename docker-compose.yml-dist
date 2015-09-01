@@ -13,3 +13,10 @@ apachephp:
     OPENPHOTO_TOKENSECRET: ""
     TAGS: ""
     BROWSERID_AUDIENCE: ""
+  links:
+    - redis
+
+redis:
+  extends:
+      file: dockerfiles/docker-composer-base.yml
+      service: redis
