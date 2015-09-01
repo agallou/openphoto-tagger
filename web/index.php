@@ -33,7 +33,10 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
 $app->register(new Predis\Silex\ClientsServiceProvider(), array(
     'predis.clients' => array(
         'session' => array(
-            'parameters' => 'tcp://' . getenv('REDIS_HOST'),
+            'parameters' => array(
+                'host' => getenv('REDIS_HOST'),
+                'password' => getenv('REDIS_PASSWORD'),
+            ),
             'options' => array(
                 'prefix' => 'sessions:'
             ),
