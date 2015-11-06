@@ -9,10 +9,10 @@
       $("#demo-input-pre-populated").tokenInput("/index.php/tags", {
         prePopulate: {{ tags|json_encode() }},
         preventDuplicates: true,
-        allowCreation: true,
+        allowFreeTagging: true,
         onAdd: function () { $.post('/index.php/photo/{{ id }}/update', { tags: $(this).val() }); },
         onDelete: function () { $.post('/index.php/photo/{{ id }}/update', { tags: $(this).val() }); }
-      });
+      }).focus();
    
       key.filter = function () { return true; };
   
